@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bucketlist da Nath</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fce7f3; /* Rosa claro para um toque feminino */
+        }
+        .card {
+            background-color: #ffffff; /* Fundo branco para os cartões */
+            border-radius: 1.25rem; /* Cantos mais arredondados */
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.08); /* Sombra mais suave e proeminente */
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: 1px solid #fbcfe8; /* Borda suave */
+        }
+        .card:hover {
+            transform: translateY(-7px); /* Efeito de elevação ao passar o mouse */
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.12); /* Sombra um pouco maior no hover */
+        }
+        .step-number {
+            background-color: #f472b6; /* Rosa vibrante para o número da etapa */
+            color: white;
+            border-radius: 9999px; /* Totalmente redondo */
+            width: 2.75rem; /* Um pouco maior */
+            height: 2.75rem; /* Um pouco maior */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.25rem; /* Texto maior */
+            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .action-title {
+            font-weight: 700; /* Bold */
+            color: #5b21b6; /* Roxo escuro para o título */
+        }
+        .details-text {
+            color: #6b7280; /* Cor de texto cinza médio */
+            line-height: 1.5;
+        }
+        a {
+            color: #9333ea; /* Roxo para o link */
+            text-decoration: none;
+            font-weight: 600;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilos para item concluído */
+        .completed .action-title,
+        .completed .details-text,
+        .completed a {
+            text-decoration: line-through;
+            color: #a1a1aa; /* Cinza mais claro para texto riscado */
+            transition: color 0.3s ease-in-out, text-decoration 0.3s ease-in-out;
+        }
+        .completed .step-number {
+            background-color: #d8b4fe; /* Cor mais clara para o número concluído */
+            box-shadow: none;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        /* Esconder o checkbox padrão e estilizar o customizado */
+        .checkbox-container {
+            display: block;
+            position: relative;
+            padding-left: 2.25rem;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 22px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Esconder o checkbox padrão do navegador */
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        /* Criar um checkbox customizado */
+        .checkmark {
+            position: absolute;
+            top: 0.25rem;
+            left: 0;
+            height: 1.5rem;
+            width: 1.5rem;
+            background-color: #eee;
+            border-radius: 0.375rem; /* Cantos arredondados para o checkbox */
+            border: 2px solid #a1a1aa;
+            transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+        }
+
+        /* No hover, adicionar uma cor de fundo cinza mais escura */
+        .checkbox-container:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+        /* Quando o checkbox é marcado, mudar a cor de fundo */
+        .checkbox-container input:checked ~ .checkmark {
+            background-color: #f472b6; /* Rosa vibrante quando marcado */
+            border-color: #f472b6;
+        }
+
+        /* Criar o indicador de "check" (escondido por padrão) */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Mostrar o indicador de "check" quando o checkbox é marcado */
+        .checkbox-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Estilizar o indicador de "check" */
+        .checkbox-container .checkmark:after {
+            left: 0.5rem;
+            top: 0.25rem;
+            width: 0.375rem;
+            height: 0.75rem;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 lg:p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-center text-purple-800 mb-8 mt-4">✨ Bucketlist da Nath ✨</h1>
+
+        <div class="space-y-6">
+            <!-- Item 1 -->
+            <div class="card flex flex-col sm:flex-row items-start sm:items-center gap-4" id="item-1">
+                <div class="step-number">1️⃣</div>
+                <div class="flex-grow">
+                    <label class="checkbox-container">
+                        <input type="checkbox" data-item-id="1">
+                        <span class="checkmark"></span>
+                        <div class="content">
+                            <h2 class="action-title text-xl">Arrumar o quarto</h2>
+                            <p class="details-text text-base mt-1">Tirar tudo do lugar, limpar, passar paninho, deixar o ambiente leve.</p>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="card flex flex-col sm:flex-row items-start sm:items-center gap-4" id="item-2">
+                <div class="step-number">2️⃣</div>
+                <div class="flex-grow">
+                    <label class="checkbox-container">
+                        <input type="checkbox" data-item-id="2">
+                        <span class="checkmark"></span>
+                        <div class="content">
+                            <h2 class="action-title text-xl">Skincare + Pipoca + Filme</h2>
+                            <p class="details-text text-base mt-1">Fazer um skincare, preparar pipoquinha e assistir <span class="font-semibold">Lady Bird</span> e depois <span class="font-semibold">Adoráveis Mulheres</span>.</p>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="card flex flex-col sm:flex-row items-start sm:items-center gap-4" id="item-3">
+                <div class="step-number">3️⃣</div>
+                <div class="flex-grow">
+                    <label class="checkbox-container">
+                        <input type="checkbox" data-item-id="3">
+                        <span class="checkmark"></span>
+                        <div class="content">
+                            <h2 class="action-title text-xl">Teste de Personalidade</h2>
+                            <p class="details-text text-base mt-1">Fazer o teste dos 16 tipos e descobrir sua personalidade → <a href="https://www.16personalities.com/br/teste-de-personalidade" target="_blank" rel="noopener noreferrer">16personalities.com.br</a></p>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="card flex flex-col sm:flex-row items-start sm:items-center gap-4" id="item-4">
+                <div class="step-number">4️⃣</div>
+                <div class="flex-grow">
+                    <label class="checkbox-container">
+                        <input type="checkbox" data-item-id="4">
+                        <span class="checkmark"></span>
+                        <div class="content">
+                            <h2 class="action-title text-xl">Playlist motivacional durante o teste</h2>
+                            <p class="details-text text-base mt-1">Ouvir essa playlist enquanto faz o teste → <a href="https://open.spotify.com/playlist/0HE5Iy8XoS5QZs6OhrDoTU?si=IIqItDu1QceUr8Q66CiUaA" target="_blank" rel="noopener noreferrer">Playlist no Spotify</a></p>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const checkboxes = document.querySelectorAll('.checkbox-container input[type="checkbox"]');
+
+            // Carregar estados do localStorage ao carregar a página
+            checkboxes.forEach(checkbox => {
+                const itemId = checkbox.dataset.itemId;
+                const isCompleted = localStorage.getItem(`item-${itemId}-completed`) === 'true';
+
+                if (isCompleted) {
+                    checkbox.checked = true;
+                    checkbox.closest('.card').classList.add('completed');
+                }
+            });
+
+            // Adicionar event listener para cada checkbox
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', (event) => {
+                    const card = event.target.closest('.card');
+                    const itemId = event.target.dataset.itemId;
+
+                    if (event.target.checked) {
+                        card.classList.add('completed');
+                        localStorage.setItem(`item-${itemId}-completed`, 'true');
+                    } else {
+                        card.classList.remove('completed');
+                        localStorage.setItem(`item-${itemId}-completed`, 'false');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
